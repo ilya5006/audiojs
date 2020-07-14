@@ -77,12 +77,7 @@ const WIDTH = document.querySelector('canvas').getAttribute('width');
 const HEIGHT = document.querySelector('canvas').getAttribute('height');
 
 const songs = [
-    'Gefalsht - Кадиллак турбо ремикс.mp3',
-    'Слава КПСС - ATLANTIDA.mp3', 
-    'Слава КПСС - Белые Ночи.mp3', 
-    'ФРЕНДЗОНА - Кокоро.mp3', 
-    'ФРЕНДЗОНА - Последний экзамен.mp3',
-    'Borch Records - Михал Палыч.mp3'
+    'Людвиг ван Бетховен - Лунная соната.mp3'
 ];
 
 const audio = new Audio();
