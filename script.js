@@ -76,10 +76,6 @@ const canvasCtx = document.querySelector('canvas').getContext('2d');
 const WIDTH = document.querySelector('canvas').getAttribute('width');
 const HEIGHT = document.querySelector('canvas').getAttribute('height');
 
-const songs = [
-    'Людвиг ван Бетховен - Лунная соната.mp3'
-];
-
 const audio = new Audio();
 
 // Init
