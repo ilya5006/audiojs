@@ -1,7 +1,9 @@
-const WIDTH = document.querySelector('canvas').getAttribute('width');
-const HEIGHT = document.querySelector('canvas').getAttribute('height');
+import AudioVisualizer from '/resources/js/classes/AudioVisualizer.js';
 
-const audioVisualizer = new AudioVisualizer();
+const audio = new Audio();
+const canvas = document.querySelector('canvas');
+
+const audioVisualizer = new AudioVisualizer({'audio': audio, 'canvas': canvas}, songs);
 
 // // Change visualisation type (vawe/frequency)
 // document.querySelector('#draw-type').addEventListener('click', (event) => {

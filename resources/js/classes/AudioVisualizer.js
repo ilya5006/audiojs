@@ -1,11 +1,15 @@
-class AudioVisualizer {
-    constructor() {
+export default class AudioVisualizer {
+    constructor(DOMElements, musicList) {
         this.currentSong = document.querySelector('#song-name');
-        this.canvasCtx = document.querySelector('canvas').getContext('2d');
-        this.canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
-        this.songs = songs;
 
-        this.audio = new Audio();
+        this.WIDTH = DOMElements.canvas.getAttribute('width');
+        this.HEIGHT = DOMElements.canvas.getAttribute('height');
+
+        this.canvasCtx = DOMElements.canvas.getContext('2d');
+        this.canvasCtx.clearRect(0, 0, this.WIDTH, this.HEIGHT);
+        this.songs = musicList;
+
+        this.audio = DOMElements.audio;
         this.audio.setAttribute('controls', '');
         this.audio.setAttribute('loop', '');
         this.audio.dataset.songid = 0;
@@ -43,9 +47,9 @@ class AudioVisualizer {
         this.analyser.getByteFrequencyData(frequencyArr);
 
         this.canvasCtx.fillStyle = 'rgb(0, 0, 0)';
-        this.canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
+        this.canvasCtx.fillRect(0, 0, this.WIDTH, this.HEIGHT);
 
-        let barWidth = (WIDTH / bufferLength) * 2.5;
+        let barWidth = (this.WIDTH / bufferLength) * 2.5;
         let barHeight;
         let x = 0;
 
@@ -54,7 +58,7 @@ class AudioVisualizer {
 
             this.canvasCtx.fillStyle = `rgb(50,${barHeight+100},50)`;
 
-            this.canvasCtx.fillRect(x, (HEIGHT-barHeight) / 2, barWidth, barHeight);
+            this.canvasCtx.fillRect(x, (this.HEIGHT - barHeight) / 2, barWidth, barHeight);
 
             x += barWidth + 1;
         }
@@ -66,18 +70,18 @@ class AudioVisualizer {
         const drawVisual = requestAnimationFrame(this.drawWave.bind(this));
         this.analyser.getByteTimeDomainData(waveArr);
         this.canvasCtx.fillStyle = 'rgb(200, 200, 200)';
-        this.canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
+        this.canvasCtx.fillRect(0, 0, this.WIDTH, this.HEIGHT);
         this.canvasCtx.lineWidth = 2;
         this.canvasCtx.strokeStyle = 'black';
 
         this.canvasCtx.beginPath();
 
-        let sliceWidth = WIDTH * 1.0 / bufferLength;
+        let sliceWidth = this.WIDTH * 1.0 / bufferLength;
         let x = 0;
 
         for (let i = 0; i < bufferLength; i++) {
             let v = waveArr[i] / 128.0;
-            let y = v * HEIGHT/2;
+            let y = v * this.HEIGHT / 2;
 
             if (i === 0) {
                 this.canvasCtx.moveTo(x, y);
@@ -91,7 +95,7 @@ class AudioVisualizer {
 
         this.canvasCtx.stroke();
 
-        this.canvasCtx.lineTo(WIDTH, HEIGHT / 2);
+        this.canvasCtx.lineTo(this.WIDTH, this.HEIGHT / 2);
     }
 
     changeSong(event) {
@@ -104,8 +108,9 @@ class AudioVisualizer {
             case 'next-song':
                 nextSongId = (parseInt(this.audio.dataset.songid) + 1) % this.songs.length;
                 break;
+
             case 'previous-song':
-                nextSongId =
+                nextSongId = // If ID song is equals zero then next id is last id
                     !(parseInt(this.audio.dataset.songid)) ?
                     this.songs.length - 1:
                     parseInt(this.audio.dataset.songid) - 1;
