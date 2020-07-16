@@ -27,12 +27,35 @@ export default class AudioVisualizer {
         this.drawFrequency();
 
         // Change song buttons
-        document.querySelector('#change-song-buttons').addEventListener('click', this.changeSong.bind(this));
+        DOMElements.previousSongButton.addEventListener('click', this.changeSong.bind(this, 'previous'));
+        DOMElements.nextSongButton.addEventListener('click', this.changeSong.bind(this, 'next'));
     }
 
     setSong(songId) {
         this.audio.setAttribute('src', `/resources/music/${songs[songId]}`);
         this.currentSong.textContent = this.songs[songId];
+    }
+
+    changeSong(previousOrNext) {
+        let nextSongId;
+
+        switch (previousOrNext) {
+            case 'next':
+                nextSongId = (parseInt(this.audio.dataset.songid) + 1) % this.songs.length;
+                break;
+
+            case 'previous':
+                nextSongId = // If ID song is equals zero then next id is last id
+                    !(parseInt(this.audio.dataset.songid)) ?
+                        this.songs.length - 1:
+                        parseInt(this.audio.dataset.songid) - 1;
+                break;
+        }
+
+        this.setSong(nextSongId);
+        this.audio.dataset.songid = nextSongId;
+
+        this.audio.play();
     }
 
     drawFrequency() {
@@ -97,31 +120,5 @@ export default class AudioVisualizer {
 
         this.canvasCtx.lineTo(this.WIDTH, this.HEIGHT / 2);
     }
-
-    changeSong(event) {
-        if (event.target.tagName.toLowerCase() != 'button')
-            return -1;
-
-        let nextSongId;
-
-        switch (event.target.getAttribute('id')) {
-            case 'next-song':
-                nextSongId = (parseInt(this.audio.dataset.songid) + 1) % this.songs.length;
-                break;
-
-            case 'previous-song':
-                nextSongId = // If ID song is equals zero then next id is last id
-                    !(parseInt(this.audio.dataset.songid)) ?
-                    this.songs.length - 1:
-                    parseInt(this.audio.dataset.songid) - 1;
-                break;
-        }
-
-        this.setSong(nextSongId);
-        this.audio.dataset.songid = nextSongId;
-
-        this.audio.play();
-    }
-
 
 }
