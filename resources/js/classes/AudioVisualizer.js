@@ -22,11 +22,22 @@ export default class AudioVisualizer {
         DOMElements.songFileInput.addEventListener('input', this.updateSong.bind(this));
     }
 
-    async updateSong(event) {
-        const formData = new FormData();
-        formData.append('song', event.target.files[0]);
+    fileIsAudio(file) {
+        return file.type.indexOf('audio') !== -1;
+    }
 
-        const fetchResponse = await fetch('/resources/php/get-song.php', {method: 'POST', body: formData});
+    async updateSong(event) {
+        const file = event.target.files[0];
+
+        if (!this.fileIsAudio(file)) {
+            throw new Error('Загружаемый вами файл не является звуковым');
+        }
+
+        const formData = new FormData();
+
+        formData.append('song', file);
+
+        const fetchResponse = await fetch('/resources/php/get-song-data.php', {method: 'POST', body: formData});
         const songData = await fetchResponse.blob();
 
         this.audio.setAttribute('src', URL.createObjectURL(songData));
