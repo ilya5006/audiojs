@@ -57,7 +57,9 @@ export default class AudioVisualizer {
 
         this.analyser.getByteFrequencyData(frequencyArr);
 
-        this.canvasCtx.fillStyle = 'rgb(0, 0, 0)';
+        this.canvasCtx.fillStyle = 'rgba(0, 0, 0, 0)';
+
+        this.canvasCtx.clearRect(0, 0, this.WIDTH, this.HEIGHT);
         this.canvasCtx.fillRect(0, 0, this.WIDTH, this.HEIGHT);
 
         let barWidth = (this.WIDTH / bufferLength) * 2.5;
