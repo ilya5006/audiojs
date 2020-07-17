@@ -62,39 +62,7 @@ export default class AudioVisualizer {
 
             x += barWidth + 1;
         }
-    }
 
-    drawWave() {
-        const waveArr = new Uint8Array(this.analyser.frequencyBinCount);
-        const bufferLength = this.analyser.frequencyBinCount;
-        const drawVisual = requestAnimationFrame(this.drawWave.bind(this));
-        this.analyser.getByteTimeDomainData(waveArr);
-        this.canvasCtx.fillStyle = 'rgb(200,200,200)';
-        this.canvasCtx.fillRect(0, 0, this.WIDTH, this.HEIGHT);
-        this.canvasCtx.lineWidth = 2;
-        this.canvasCtx.strokeStyle = 'black';
-
-        this.canvasCtx.beginPath();
-
-        let sliceWidth = this.WIDTH * 1.0 / bufferLength;
-        let x = 0;
-
-        for (let i = 0; i < bufferLength; i++) {
-            let v = waveArr[i] / 128.0;
-            let y = v * this.HEIGHT / 2;
-
-            if (i === 0) {
-                this.canvasCtx.moveTo(x, y);
-            } else {
-                this.canvasCtx.lineTo(x, y);
-            }
-
-            x += sliceWidth;
-        }
-
-        this.canvasCtx.stroke();
-
-        this.canvasCtx.lineTo(this.WIDTH, this.HEIGHT / 2);
     }
 
 }
