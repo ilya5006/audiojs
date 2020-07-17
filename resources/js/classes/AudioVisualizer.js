@@ -1,4 +1,13 @@
 export default class AudioVisualizer {
+    /**
+     *
+     * @param DOMElements {
+     *                      songTitle - element which will be show song title;
+     *                      audio - audio element which will be use for taking audiostream;
+     *                      canvas - canvas element which contains the canvas and will be using for draw animaion;
+     *                      songFileInput - input (type=file) which using for getting user song;
+     *                    }
+     */
     constructor(DOMElements) {
         this.songTitle = DOMElements.songTitle;
 
