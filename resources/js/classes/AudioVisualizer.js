@@ -1,21 +1,14 @@
 export default class AudioVisualizer {
-    constructor(DOMElements, musicList) {
-        this.currentSong = document.querySelector('#song-name');
+    constructor(DOMElements) {
+        this.songTitle = DOMElements.songTitle;
 
         this.WIDTH = DOMElements.canvas.getAttribute('width');
         this.HEIGHT = DOMElements.canvas.getAttribute('height');
 
         this.canvasCtx = DOMElements.canvas.getContext('2d');
         this.canvasCtx.clearRect(0, 0, this.WIDTH, this.HEIGHT);
-        this.songs = musicList;
 
         this.audio = DOMElements.audio;
-        this.audio.setAttribute('controls', '');
-        this.audio.setAttribute('loop', '');
-        this.audio.dataset.songid = 0;
-        this.setSong(0);
-        this.audio.play();
-        document.body.insertAdjacentElement('afterBegin', this.audio);
 
         this.audioContext = new AudioContext();
         this.analyser = this.audioContext.createAnalyser();
@@ -26,36 +19,20 @@ export default class AudioVisualizer {
 
         this.drawFrequency();
 
-        // Change song buttons
-        DOMElements.previousSongButton.addEventListener('click', this.changeSong.bind(this, 'previous'));
-        DOMElements.nextSongButton.addEventListener('click', this.changeSong.bind(this, 'next'));
+        DOMElements.songFileInput.addEventListener('input', this.updateSong.bind(this));
     }
 
-    setSong(songId) {
-        this.audio.setAttribute('src', `/resources/music/${songs[songId]}`);
-        this.currentSong.textContent = this.songs[songId];
-    }
+    async updateSong(event) {
+        const formData = new FormData();
+        formData.append('song', event.target.files[0]);
 
-    changeSong(previousOrNext) {
-        let nextSongId;
+        const fetchResponse = await fetch('/resources/php/get-song.php', {method: 'POST', body: formData});
+        const songData = await fetchResponse.blob();
 
-        switch (previousOrNext) {
-            case 'next':
-                nextSongId = (parseInt(this.audio.dataset.songid) + 1) % this.songs.length;
-                break;
-
-            case 'previous':
-                nextSongId = // If ID song is equals zero then next id is last id
-                    !(parseInt(this.audio.dataset.songid)) ?
-                        this.songs.length - 1:
-                        parseInt(this.audio.dataset.songid) - 1;
-                break;
-        }
-
-        this.setSong(nextSongId);
-        this.audio.dataset.songid = nextSongId;
-
+        this.audio.setAttribute('src', URL.createObjectURL(songData));
         this.audio.play();
+
+        this.songTitle.textContent = event.target.files[0].name;
     }
 
     drawFrequency() {
@@ -92,7 +69,7 @@ export default class AudioVisualizer {
         const bufferLength = this.analyser.frequencyBinCount;
         const drawVisual = requestAnimationFrame(this.drawWave.bind(this));
         this.analyser.getByteTimeDomainData(waveArr);
-        this.canvasCtx.fillStyle = 'rgb(200, 200, 200)';
+        this.canvasCtx.fillStyle = 'rgb(200,200,200)';
         this.canvasCtx.fillRect(0, 0, this.WIDTH, this.HEIGHT);
         this.canvasCtx.lineWidth = 2;
         this.canvasCtx.strokeStyle = 'black';
@@ -113,7 +90,6 @@ export default class AudioVisualizer {
             }
 
             x += sliceWidth;
-
         }
 
         this.canvasCtx.stroke();

@@ -5,32 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Audio Visualizer</title>
 
-    <script src="/resources/js/music.js" defer></script>
     <script src="/resources/js/classes/AudioVisualizer.js" type="module" defer></script>
     <script src="/resources/js/script.js" type="module" defer></script>
 
     <style>
-        *
-        {
+        * {
             margin: 0px;
             padding: 0px;
         }
+
+        audio {
+            width: 100%;
+        }
+
     </style>
 </head>
 <body>
-    <div id="change-song-buttons">
-        <button id="previous-song">Previous song</button>
-        <button id="next-song">Next song</button>
-    </div>
+    <audio controls="" loop=""></audio>
   
-    <p id="song-name"></p>
+    <p id="song-title">Select song!</p>
 
     <div id="draw-type">
         <button id="draw-type-wave" class="draw-type">Wave</button>
         <button id="draw-type-frequency" class="draw-type">Frequency</button>
     </div>
 
-    <canvas width="1920" height="400"></canvas>
+    <input type="file" id="songFileInput" name="song">
+
+    <canvas width="1920" height="800"></canvas>
 
 </body>
 </html>
