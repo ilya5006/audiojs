@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Audio Visualizer</title>
 
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap" rel="stylesheet">
+
     <script src="/resources/js/classes/AudioVisualizer.js" type="module" defer></script>
     <script src="/resources/js/script.js" type="module" defer></script>
 
@@ -16,8 +18,54 @@
 
         audio {
             width: 100%;
+            position: absolute;
+            bottom: 0px;
         }
 
+        body {
+            display: flex;
+            flex-direction: column;
+
+            background-color: #000000;
+        }
+
+        #song-title {
+            display: flex;
+            align-self: center;
+
+            margin-top: 20px;
+
+            font-family: 'Roboto Condensed', sans-serif;
+            font-size: 70px;
+
+            color: #FFFFFF;
+        }
+
+        label[for="songFileInput"] {
+            background-color: white;
+
+            display: flex;
+            align-self: center;
+
+            font-family: 'Roboto Condensed', sans-serif;
+            font-size: 30px;
+
+            padding: 10px;
+            margin-top: 20px;
+
+            cursor: pointer;
+
+            transition: 0.5s all;
+        }
+
+        label[for="songFileInput"]:hover {
+            background-color: #5e2525;
+            color: white;
+        }
+
+        #songFileInput {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -25,14 +73,10 @@
   
     <p id="song-title">Select song!</p>
 
-    <div id="draw-type">
-        <button id="draw-type-wave" class="draw-type">Wave</button>
-        <button id="draw-type-frequency" class="draw-type">Frequency</button>
-    </div>
-
+    <label for="songFileInput">Выберите музыку</label>
     <input type="file" id="songFileInput" name="song">
 
-    <canvas width="1920" height="800"></canvas>
+    <canvas width="2048" height="800"></canvas>
 
 </body>
 </html>

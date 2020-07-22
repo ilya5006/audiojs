@@ -6,8 +6,8 @@ const songFileInput = document.querySelector('#songFileInput');
 const songTitle = document.querySelector('#song-title');
 
 const audioVisualizer = new AudioVisualizer({
-                                            'songTitle': songTitle,
-                                            'audio': audio,
-                                            'canvas': canvas,
-                                            'songFileInput': songFileInput
-                                            });
+    'songTitle': songTitle,
+    'audio': audio,
+    'canvas': canvas,
+    'songFileInput': songFileInput
+});
