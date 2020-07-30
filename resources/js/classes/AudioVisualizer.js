@@ -2,11 +2,11 @@ export default class AudioVisualizer {
     /**
      *
      * @param DOMElements {
-     *                      songTitle - element which will be show song title;
-     *                      audio - audio element which will be use for taking audiostream;
-     *                      canvas - canvas element which contains the canvas and will be using for draw animaion;
-     *                      songFileInput - input (type=file) which using for getting user song;
-     *                    }
+     *    songTitle - element which will be show song title;
+     *    audio - audio element which will be use for taking audiostream;
+     *    canvas - canvas element which contains the canvas and will be using for draw animaion;
+     *    songFileInput - input (type=file) which using for getting user song;
+     * }
      */
     constructor(DOMElements) {
         this.songTitle = DOMElements.songTitle;
@@ -18,7 +18,7 @@ export default class AudioVisualizer {
         this.canvasCtx.clearRect(0, 0, this.WIDTH, this.HEIGHT);
 
         this.audio = DOMElements.audio;
-
+        
         this.audioContext = new AudioContext();
         this.analyser = this.audioContext.createAnalyser();
         this.source = this.audioContext.createMediaElementSource(this.audio);
@@ -31,14 +31,14 @@ export default class AudioVisualizer {
         DOMElements.songFileInput.addEventListener('input', this.updateSong.bind(this));
     }
 
-    fileIsAudio(file) {
+    isAudioFile(file) {
         return file.type.indexOf('audio') !== -1;
     }
 
     async updateSong(event) {
         const file = event.target.files[0];
 
-        if (!this.fileIsAudio(file)) {
+        if (!this.isAudioFile(file)) {
             throw new Error('Загружаемый вами файл не является звуковым');
         }
 
@@ -46,7 +46,10 @@ export default class AudioVisualizer {
 
         formData.append('song', file);
 
-        const fetchResponse = await fetch('/resources/php/get-song-data.php', {method: 'POST', body: formData});
+        const fetchResponse = await fetch('/resources/php/get-song-data.php', {
+            method: 'POST',
+            body: formData
+        });
         const songData = await fetchResponse.blob();
 
         this.audio.setAttribute('src', URL.createObjectURL(songData));
