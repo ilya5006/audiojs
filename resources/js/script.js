@@ -1,10 +1,5 @@
 import AudioVisualizer from '/resources/js/classes/AudioVisualizer.js';
 
-const audio = document.querySelector('audio');
-const canvas = document.querySelector('canvas');
-const songFileInput = document.querySelector('#songFileInput');
-const songTitle = document.querySelector('#song-title');
-
 const initAudioVisualizer = () => {
     const audioVisualizer = new AudioVisualizer({
         'songTitle': songTitle,
