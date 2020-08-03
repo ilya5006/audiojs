@@ -59,7 +59,7 @@ export default class AudioVisualizer {
     }
 
     drawFrequency() {
-        this.analyser.fftSize = 256;
+        this.analyser.fftSize = 512;
 
         const frequencyArr = new Uint8Array(this.analyser.frequencyBinCount);
 
