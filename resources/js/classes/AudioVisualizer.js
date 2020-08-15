@@ -81,7 +81,12 @@ export default class AudioVisualizer {
         for (let i = 0; i < bufferLength; i++) {
             barHeight = frequencyArr[i];
 
-            this.canvasCtx.fillStyle = `rgb(50,${barHeight+100},50)`;
+            // this.canvasCtx.fillStyle = `rgb(50,${barHeight+100},50)`;
+            this.canvasCtx.fillStyle = `hsl(
+                ${Math.round(360 / bufferLength * i)},
+                100%,
+                ${Math.round(100 / bufferLength * barHeight)}%
+            )`;
 
             this.canvasCtx.fillRect(x, (this.HEIGHT - barHeight) / 2, barWidth, barHeight);
 
