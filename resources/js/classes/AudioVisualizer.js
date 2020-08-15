@@ -74,6 +74,10 @@ export default class AudioVisualizer {
         this.canvasCtx.clearRect(0, 0, this.WIDTH, this.HEIGHT);
         this.canvasCtx.fillRect(0, 0, this.WIDTH, this.HEIGHT);
 
+        if (!this.position) {
+            this.position = 0;
+        }
+
         let barWidth = (this.WIDTH / bufferLength) * 2.5;
         let barHeight;
         let x = 0;
@@ -81,11 +85,10 @@ export default class AudioVisualizer {
         for (let i = 0; i < bufferLength; i++) {
             barHeight = frequencyArr[i];
 
-            // this.canvasCtx.fillStyle = `rgb(50,${barHeight+100},50)`;
             this.canvasCtx.fillStyle = `hsl(
-                ${Math.round(360 / bufferLength * i)},
-                100%,
-                ${Math.round(100 / bufferLength * barHeight)}%
+                ${((360 / bufferLength * i) + this.position) % 360},
+                ${100 / bufferLength * frequencyArr[i]}%,
+                ${100 / bufferLength * frequencyArr[i]}%
             )`;
 
             this.canvasCtx.fillRect(x, (this.HEIGHT - barHeight) / 2, barWidth, barHeight);
@@ -93,6 +96,7 @@ export default class AudioVisualizer {
             x += barWidth + 1;
         }
 
+        this.position += 1;
     }
 
 }
