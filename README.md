@@ -1,3 +1,3 @@
 # audiojs
 
-Музыкальный эквалайзер
+Music equalizer
