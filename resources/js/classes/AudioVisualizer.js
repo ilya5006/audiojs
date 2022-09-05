@@ -42,17 +42,7 @@ export default class AudioVisualizer {
             throw new Error('Загружаемый вами файл не является звуковым');
         }
 
-        const formData = new FormData();
-
-        formData.append('song', file);
-
-        const fetchResponse = await fetch('/resources/php/get-song-data.php', {
-            method: 'POST',
-            body: formData
-        });
-        const songData = await fetchResponse.blob();
-
-        this.audio.setAttribute('src', URL.createObjectURL(songData));
+        this.audio.setAttribute('src', URL.createObjectURL(file));
         this.audio.play();
 
         this.songTitle.textContent = event.target.files[0].name;
