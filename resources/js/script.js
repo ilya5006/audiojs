@@ -1,4 +1,3 @@
-import AudioVisualizer from '/resources/js/classes/AudioVisualizer.js';
 
 const initAudioVisualizer = () => {
     const audioVisualizer = new AudioVisualizer({
